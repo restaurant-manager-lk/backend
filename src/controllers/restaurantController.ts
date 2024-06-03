@@ -11,6 +11,18 @@ export const getRestaurants = async (req: Request, res: Response) => {
   }
 };
 
+export const getRestaurantById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).send("No restaurant with that id");
+    const restaurant = await Restaurant.findById(req.params.id);
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
 export const addRestaurant = async (req: Request, res: Response) => {
   const { name, address, phone } = req.body;
 
@@ -41,11 +53,11 @@ export const updateRestaurant = async (req: Request, res: Response) => {
       const updatedRestaurant = await restaurant.save();
       res.json(updatedRestaurant);
     }
-  } catch (error:any) {
+  } catch (error: any) {
     if (error.code == 11000) {
-        res.status(409).json({ message: "Restaurant already exists" });
-      } else {
-        res.status(400).json({ message: error.message });
-      }
+      res.status(409).json({ message: "Restaurant already exists" });
+    } else {
+      res.status(400).json({ message: error.message });
+    }
   }
 };
