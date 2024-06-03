@@ -15,9 +15,21 @@ export const getRestaurantById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(404).send("No restaurant with that id");
+      return res.status(404).send("No restaurant with that id");
     const restaurant = await Restaurant.findById(req.params.id);
-    res.json(restaurant);
+    res.status(200).json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
+export const deleteRestaurant = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send("No restaurant with that id");
+    await Restaurant.findByIdAndRemove(req.params.id);
+    res.status(200).json({ message: "Restaurant deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
