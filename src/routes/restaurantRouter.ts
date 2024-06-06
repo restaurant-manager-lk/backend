@@ -9,4 +9,4 @@ router.put("/update/:id", updateRestaurant);
 router.get("/:id",getRestaurantById);
 router.delete("/delete/:id", deleteRestaurant);
 
-export default router;
+export default router; 

@@ -1,15 +1,15 @@
 FROM node:latest
 
-ENV MONGODB_URL=mongodb://mongo:27017/notes
+ENV MONGODB_URL=mongodb+srv://Shavidika:shavi29924@cluster1.lgleyvj.mongodb.net/restaurant_manager?retryWrites=true&w=majority&appName=Cluster1
 
 WORKDIR /app
 
-COPY backend/package*.json ./
+COPY ./package*.json ./
 
 RUN npm install
 
-COPY backend/ .
+COPY . .
 
 EXPOSE 8000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
